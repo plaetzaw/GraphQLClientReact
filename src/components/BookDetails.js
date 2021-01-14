@@ -22,7 +22,7 @@ const displayBookDetails = (loading, data, error) => {
     }else{
         return(
             <div>
-                No data to display..
+                {/* No data to display.. MEEP */}
             </div>
         )
     }
@@ -38,7 +38,7 @@ function BookDetails(props) {
     // console.log(data)
     return (
         <div id="book-details">
-            <p>OutPut here</p>
+            {/* <p>OutPut here</p> */}
             {displayBookDetails(loading, data, error)}
         </div>
     )

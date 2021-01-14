@@ -1,22 +1,39 @@
-import React from 'react'
-import { useQuery } from 'react-apollo'
+import { useQuery } from 'react-apollo';
 import { getBooksQuery } from '../queries/queries'
-// import { graphql } from 'react-apollo'
+import { useState } from 'react';
+// import { useState } from 'react';
 
+import BookDetails from './BookDetails'
 
-
-function Booklist(){
-    const { loading, error, data } = useQuery(getBooksQuery);
-    console.log(data);
-    if (loading) return <p>Loading....</p>
-    if (error) return <p>Something went wrong</p>
+const DisplayBooks = ({ loading, error, data, selectBook }) => {
+    if (loading) return <p>Loading....</p>;
+    if (error) return <p>Something went wrong</p>;
     return data.books.map(book => {
-        return (
-            <li key={book.id}> {book.name}</li>
-        )
-    })
-}
- 
+      return (
+        <li key={book.id} onClick={() => selectBook(book.id)}>
+          {book.name}
+        </li>
+      );
+    });
+  };
+  
+  function BookList() {
+    const [selected, setSelected] = useState(null);
+    const { loading, error, data } = useQuery(getBooksQuery);
+    const selectBook = id => setSelected(id);
+    return (
+      <div>
+        <ul id="book-list">
+          <DisplayBooks
+            loading={loading}
+            error={error}
+            data={data}
+            selectBook={selectBook}
+          />
+        </ul>
+        <BookDetails bookId={selected} />
+      </div>
+    );
+  }
 
-
-export default Booklist
+export default BookList;
